@@ -7,7 +7,7 @@ import java.util.List;
 import ru.bioinf.rosalind.common.FileUtils;
 
 /**
- * @see <a href = http://rosalind.info/problems/edta//> Edit Distance Alignment. </a>
+ * @see <a href = http://rosalind.info/problems/edta/> Edit Distance Alignment. </a>
  * 
  * @author vveprinsky
  */
