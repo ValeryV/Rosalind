@@ -1,7 +1,6 @@
 package ru.bioinf.rosalind.alignment.dynamicProgramming;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 import ru.bioinf.rosalind.common.FileUtils;
