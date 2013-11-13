@@ -77,10 +77,11 @@ public class Ctea {
 					min = left;
 				if (min > top)
 					min = top;
-				
+				  
 				if (min==diag) {
 					// движение по диагонали
 					res1.insert(0, st1[i-1]);
+					
 					res2.insert(0, st2[j-1]);
 					i--;
 					j--;
