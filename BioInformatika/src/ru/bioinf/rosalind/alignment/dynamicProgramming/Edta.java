@@ -7,7 +7,7 @@ import java.util.List;
 import ru.bioinf.rosalind.common.FileUtils;
 
 /**
- * @see <a href = http://rosalind.info/problems/edta/> Edit Distance Alignment. </a>
+ * @see <a href = http://rosalind.info/problems/edta//> Edit Distance Alignment. </a>
  * 
  * @author vveprinsky
  */
@@ -19,10 +19,11 @@ public class Edta {
 		
 		try {
 			List<String> strDNAs = FileUtils.readFileFASTA2("d:/temp/rosalind_edta.txt");
+			//List<String> strDNAs = FileUtils.readFileFASTA2("d:/temp/rosalind_ctea.txt");
 			char[] st1 = strDNAs.get(0).toCharArray(); // вертикальная
 			char[] st2 = strDNAs.get(1).toCharArray();	// горизонтальная
-			//st1 = "sunday".toCharArray();
-			//st2 = "saturday".toCharArray();
+			//st1 = "PLEASANTLY".toCharArray();
+			//st2 = "MEANLY".toCharArray();
 			
 			int[][] score = new int[st1.length+1][st2.length+1];
 			// расстояния между одной строкой и другой пустой
