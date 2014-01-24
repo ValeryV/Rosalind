@@ -5,6 +5,7 @@ import java.util.List;
 
 import ru.bioinf.rosalind.common.Blosum62;
 import ru.bioinf.rosalind.common.FileUtils;
+import ru.bioinf.rosalind.common.NumberUtils;
 
 /**
  * @see <a href = http://rosalind.info/problems/glob/> Global Alignment with Scoring Matrix. </a>
@@ -42,14 +43,8 @@ public class Glob {
 					int subScore = score[i][j] + substScore;			// замена символа (match\mismatch)
 					int delScore = score[i][j+1] + gap;					// удаление из первой строки (сдвиг вверх)
 					int instScore = score[i+1][j] + gap;				// вставка во вторую строку (сдвиг влево)
-					int max = subScore;								// максимальный счёт
-					
-					if(max < delScore){
-						max = delScore;
-					}
-					if(max < instScore){
-						max = instScore;
-					}
+					int max;											// максимальный счёт
+					max = NumberUtils.getMax(subScore, delScore, instScore);
 					score[i+1][j+1] = max;
 				}
 			}

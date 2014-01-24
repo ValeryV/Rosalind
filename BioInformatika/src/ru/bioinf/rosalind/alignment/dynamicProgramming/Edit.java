@@ -55,12 +55,6 @@ public class Edit {
 					int delScore = score[i][j + 1] + 1;
 					int instScore = score[i + 1][j] + 1;
 					int subScore = score[i][j] + 1;
-					/*int tmp = delScore;
-					if (tmp > instScore)
-						tmp = instScore;
-					if (tmp > subScore)
-						tmp = subScore;
-					score[i + 1][j + 1] = tmp;*/
 					score[i + 1][j + 1] = NumberUtils.getMin(delScore, instScore, subScore);
 				}
 			}
