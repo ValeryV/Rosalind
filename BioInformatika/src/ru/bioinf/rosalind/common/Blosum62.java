@@ -3,7 +3,7 @@ package ru.bioinf.rosalind.common;
  * Blosum-62 substitution matrix (scoring matrix)
  * (http://rosalind.info/glossary/blosum62/)
  * 
- *  A  C  D  E  F  G  H  I  K  L  M  N  P  Q  R  S  T  V  W  Y
+ *     A  C  D  E  F  G  H  I  K  L  M  N  P  Q  R  S  T  V  W  Y
 	A  4  0 -2 -1 -2  0 -2 -1 -1 -1 -1 -2 -1 -1 -1  1  0  0 -3 -2
 	C  0  9 -3 -4 -2 -3 -3 -1 -3 -1 -1 -3 -3 -3 -3 -1 -1 -1 -2 -2
 	D -2 -3  6  2 -3 -1 -1 -3 -1 -4 -3  1 -1  0 -2  0 -1 -3 -4 -3

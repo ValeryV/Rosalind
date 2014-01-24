@@ -7,6 +7,7 @@ import java.util.List;
 
 import ru.bioinf.rosalind.common.Blosum62;
 import ru.bioinf.rosalind.common.FileUtils;
+import ru.bioinf.rosalind.common.NumberUtils;
 
 /**
  * @see <a href = http://rosalind.info/problems/gcon/> Global Alignment with Constant Gap Penalty. </a>
@@ -16,7 +17,8 @@ import ru.bioinf.rosalind.common.FileUtils;
 public class Gcon {
 
 	// КОНСТАНТНОЕ УВЕЛИЧЕНИЕ ШТРАФА!
-	private static final int gap = -5; //gap penalty 
+	private static final int gapInst = -5/*-3*/;	//gap penalty за открытие нового
+	private static final int gapExt = 0/*-1*/;	//gap penalty за продолжение
 	
 	public static void main(String[] args) {
 		try {
@@ -25,75 +27,69 @@ public class Gcon {
 			char[] st2 = strDNAs.get(1).toCharArray();	// горизонтальная (вторая)
 			st1 = "PLEASANTLY".toCharArray();
 			st2 = "MEANLY".toCharArray();
+
+			//st1 = "ALTGTGGLR".toCharArray();
+			//st2 = "ATGGGR".toCharArray(); // из крутой книжки http://www.ecs.umass.edu/~mettu/ece597m/readings/TextChapter1.pdf
+			
 			
 			int[][] score = new int[st1.length+1][st2.length+1];
-			//int[][] diag = new int[st1.length+1][st2.length+1];
-			//int[][] hor = new int[st1.length+1][st2.length+1];
-			//int[][] vert = new int[st1.length+1][st2.length+1];
 			
-			// инициализация
-			diag[1][1] = Blosum62.getScore(st1[0],st2[0]);
-			for (int i = 0; i < st2.length; i++) {
-				diag[0][i] = Blosum62.getScore(st1[0],st2[i]) + gap;
-				hor[0][i] = 2*gap;
+			// расстояния между одной строкой и другой пустой
+			for (int i = 1; i <= st1.length; i++) {
+				score[i][0] = gapInst + gapExt*i; //TODO 1
 			}
-			for (int i = 0; i < st1.length; i++) {
-				diag[i][0] = Blosum62.getScore(st1[i],st2[0]) + gap;
-				vert[i][0] = 2*gap;
+			for (int i = 1; i <= st2.length; i++) {
+				score[0][i] = gapInst + gapExt*i;	//TODO 1
 			}
 			
-			boolean wasGapDel = false;	// предыдущий шаг был вставкой (удаление\замена)
-			boolean wasGapIns = false;
 			
 			// заполним матрицу (кроме нулевой строки и нулевого столбца)
 			for (int i = 0; i < st1.length; i++) {
 				for (int j = 0; j < st2.length; j++) {
-					/*
+					// оцениваемая ячейка i+1,j+1
+					
+					
 					int substScore = Blosum62.getScore(st1[i],st2[j]);	// счёт для подстановки
 					int subScore = score[i][j] + substScore;			// замена символа (match\mismatch)					
 					
-					int delScore;				// удаление из первой строки (сдвиг вверх)
-					int instScore;				// вставка во вторую строку (сдвиг влево)
+					/* тоже книжный вариант
+					if (st1[i] == st2[j])
+						subScore = score[i][j] + 3;
+					else
+						subScore = score[i][j] + 1;
+					*/
 					
-					System.out.println(i);
-					if (wasGapDel) {
-						//предыдущий шаг был вставкой пробела! Новых штрафов не требуется.
-						delScore = score[i][j+1];
-						System.out.println("wasgapdel");
-					} else {
-						delScore = score[i][j+1] + gap;
-						System.out.println("normdel");
+					int[] hor = new int[st2.length+1];	//горизонтальный путь до оцениваемой ячейки
+					int[] vert = new int[st1.length+1];	//вертикальный путь до оцениваемой ячейки
+					for (int k = 0; k <= st1.length; k++) {
+						vert[k] = Integer.MIN_VALUE;
 					}
-					
-					if (wasGapIns) {
-						//предыдущий шаг был вставкой пробела! Новых штрафов не требуется.
-						instScore = score[i+1][j];
-						System.out.println("wasgapins");
-					} else {
-						instScore = score[i+1][j] + gap;
-						System.out.println("norminst");
+					for (int k = 0; k <= st2.length; k++) {
+						hor[k] = Integer.MIN_VALUE;
 					}
 					
-					int max = subScore;		// максимальный счёт
-					wasGapIns = false;
-					wasGapDel = false;
-					if(max < delScore){
-						max = delScore;
-						wasGapDel = true;
-						System.out.println("del");
+					
+					int h = gapInst;		// лучший счёт для горизонтальных вставок
+					int v = gapInst;		// лучший счёт для вертикальных вставок
+					
+					for (int k = 1; k <= j; k++){
+						hor[j-k] = score[i+1][j+1-k] + gapInst + gapExt*k;//TODO 1
 					}
-					if(max < instScore){
-						max = instScore;
-						wasGapIns = true;
-						System.out.println("inst");
+					h = NumberUtils.getMax(hor);
+					
+					for (int l = 1; l <= i; l++){
+						vert[i-l] = score[i+1-l][j+1] + gapInst  + gapExt*l;//TODO 1
 					}
-					score[i+1][j+1] = max;
-				*/}
+					v = NumberUtils.getMax(vert);
+					
+					score[i+1][j+1] =  NumberUtils.getMax(subScore, h, v);
+				}
 			}
 			
-			//for (int i = 0; i < score.length; i++) {			
-			//	System.out.println(Arrays.toString(score[i]));
-			//}
+			System.out.println("  " + Arrays.toString(score[0]));
+			for (int i = 1; i < score.length; i++) {			
+				System.out.println(st1[i-1] +" " + Arrays.toString(score[i]));
+			}
 
 			System.out.println(score[st1.length][st2.length]);
 			

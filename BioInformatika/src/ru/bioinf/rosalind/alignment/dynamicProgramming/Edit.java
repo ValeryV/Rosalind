@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import ru.bioinf.rosalind.common.FileUtils;
+import ru.bioinf.rosalind.common.NumberUtils;
 
 /**
  * @see <a href = http://rosalind.info/problems/edit/> Edit Distance. </a>
@@ -54,12 +55,13 @@ public class Edit {
 					int delScore = score[i][j + 1] + 1;
 					int instScore = score[i + 1][j] + 1;
 					int subScore = score[i][j] + 1;
-					int tmp = delScore;
+					/*int tmp = delScore;
 					if (tmp > instScore)
 						tmp = instScore;
 					if (tmp > subScore)
 						tmp = subScore;
-					score[i + 1][j + 1] = tmp;
+					score[i + 1][j + 1] = tmp;*/
+					score[i + 1][j + 1] = NumberUtils.getMin(delScore, instScore, subScore);
 				}
 			}
 		}

@@ -20,4 +20,14 @@ public class NumberUtils {
 		if (min > num3) min = num3;
 		return min;
 	}
+	
+	/** максимальное из массива */
+	public static int getMax(int[] num){
+		int max = num[0];
+		for (int i = 0; i < num.length; i++) {
+			if (max < num[i]) max = num[i];
+		}
+		return max;
+	}
+	
 }
