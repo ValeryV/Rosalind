@@ -1,7 +1,6 @@
 package ru.bioinf.rosalind.alignment.dynamicProgramming;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,15 +17,15 @@ public class Gcon {
 
 	// КОНСТАНТНОЕ УВЕЛИЧЕНИЕ ШТРАФА!
 	private static final int gapInst = -5/*-3*/;	//gap penalty за открытие нового
-	private static final int gapExt = 0/*-1*/;	//gap penalty за продолжение
+	private static final int gapExt = 0/*-1*/;		//gap penalty за продолжение
 	
 	public static void main(String[] args) {
 		try {
 			List<String> strDNAs = FileUtils.readFileFASTA2("d:/temp/rosalind_gcon.txt");
 			char[] st1 = strDNAs.get(0).toCharArray(); // вертикальная (первая)
 			char[] st2 = strDNAs.get(1).toCharArray();	// горизонтальная (вторая)
-			st1 = "PLEASANTLY".toCharArray();
-			st2 = "MEANLY".toCharArray();
+			//st1 = "PLEASANTLY".toCharArray();
+			//st2 = "MEANLY".toCharArray();
 
 			//st1 = "ALTGTGGLR".toCharArray();
 			//st2 = "ATGGGR".toCharArray(); // из крутой книжки http://www.ecs.umass.edu/~mettu/ece597m/readings/TextChapter1.pdf
@@ -36,10 +35,10 @@ public class Gcon {
 			
 			// расстояния между одной строкой и другой пустой
 			for (int i = 1; i <= st1.length; i++) {
-				score[i][0] = gapInst + gapExt*i; //TODO 1
+				score[i][0] = gapInst /*+ gapExt*i*/;
 			}
 			for (int i = 1; i <= st2.length; i++) {
-				score[0][i] = gapInst + gapExt*i;	//TODO 1
+				score[0][i] = gapInst /*+ gapExt*i*/;
 			}
 			
 			
@@ -73,12 +72,12 @@ public class Gcon {
 					int v = gapInst;		// лучший счёт для вертикальных вставок
 					
 					for (int k = 1; k <= j; k++){
-						hor[j-k] = score[i+1][j+1-k] + gapInst + gapExt*k;//TODO 1
+						hor[j-k] = score[i+1][j+1-k] + gapInst /*+ gapExt*k*/;
 					}
 					h = NumberUtils.getMax(hor);
 					
 					for (int l = 1; l <= i; l++){
-						vert[i-l] = score[i+1-l][j+1] + gapInst  + gapExt*l;//TODO 1
+						vert[i-l] = score[i+1-l][j+1] + gapInst  /*+ gapExt*l*/;
 					}
 					v = NumberUtils.getMax(vert);
 					
@@ -86,7 +85,7 @@ public class Gcon {
 				}
 			}
 			
-			System.out.println("  " + Arrays.toString(score[0]));
+			//System.out.println("  " + Arrays.toString(score[0]));
 			for (int i = 1; i < score.length; i++) {			
 				System.out.println(st1[i-1] +" " + Arrays.toString(score[i]));
 			}
